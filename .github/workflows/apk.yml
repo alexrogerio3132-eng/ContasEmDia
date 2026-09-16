@@ -34,20 +34,16 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Instalar dependências
+      - name: Preparar arquivos do app
         run: |
-          npm ci
           pip install pillow
-
-      - name: Montar a pasta do app
-        run: |
-          mkdir -p www
-          cp index.html manifest.json icon-192.png icon-512.png icon-maskable-512.png www/
+          python preparar_android.py inicio
+          npm install
 
       - name: Criar e ajustar o projeto Android
         run: |
           npx cap add android
-          python preparar_android.py
+          python preparar_android.py android
           npx cap sync android
 
       - name: Compilar o APK
