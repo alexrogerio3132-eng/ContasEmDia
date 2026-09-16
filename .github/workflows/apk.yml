@@ -1,0 +1,66 @@
+name: Gerar APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar os arquivos
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          npm ci
+          pip install pillow
+
+      - name: Montar a pasta do app
+        run: |
+          mkdir -p www
+          cp index.html manifest.json icon-192.png icon-512.png icon-maskable-512.png www/
+
+      - name: Criar e ajustar o projeto Android
+        run: |
+          npx cap add android
+          python preparar_android.py
+          npx cap sync android
+
+      - name: Compilar o APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+          cp app/build/outputs/apk/release/app-release.apk ../ContasEmDia.apk
+
+      - name: Publicar para download
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Contas em Dia 1.0.${{ github.run_number }}
+          body: Baixe o arquivo ContasEmDia.apk abaixo e abra no celular para instalar ou atualizar.
+          files: ContasEmDia.apk
