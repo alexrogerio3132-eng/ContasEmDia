@@ -1,0 +1,47 @@
+CONTAS EM DIA — VERSÃO APK (Android)
+====================================
+
+No APK os avisos ficam programados no próprio sistema do celular, como um alarme.
+Eles aparecem às 9h, 2 dias antes e no dia do vencimento, com o app fechado,
+sem internet e mesmo depois de reiniciar o celular.
+
+O APK é montado de graça pelo GitHub (GitHub Actions). Você só envia os arquivos.
+
+1) CRIAR O REPOSITÓRIO
+   - No GitHub: New repository > nome ContasEmDia-APK > marque PRIVATE > Create.
+   - Use repositório privado: ele guarda a chave de assinatura do app.
+
+2) ENVIAR OS ARQUIVOS (pelo computador é mais fácil)
+   - Descompacte o ZIP.
+   - No repositório: Add file > Upload files.
+   - Arraste as pastas recursos, scripts, www e os arquivos
+     package.json, package-lock.json, capacitor.config.json e .gitignore > Commit changes.
+   - A pasta .github costuma ficar escondida e não subir arrastando. Então:
+     Add file > Create new file > no nome digite:  .github/workflows/apk.yml
+     Cole todo o conteúdo do arquivo apk.yml (está na pasta .github/workflows do ZIP) > Commit changes.
+
+3) ESPERAR O APK FICAR PRONTO
+   - Aba Actions: aparece "Gerar APK" rodando (leva uns 5 a 10 minutos).
+   - Ficou verde: vá em Releases (lado direito da página inicial do repositório)
+     e baixe ContasEmDia.apk.
+   - Ficou vermelho: abra a execução, copie o erro e me mande.
+
+4) INSTALAR NO CELULAR
+   - Baixe o ContasEmDia.apk no celular e toque nele.
+   - O Android pede para permitir "instalar apps desconhecidos" para o Chrome ou para
+     o app Arquivos: permita.
+   - Se o Play Protect avisar que o app é desconhecido: Mais detalhes > Instalar mesmo assim.
+
+5) PRIMEIRO USO
+   - O app já abre com os dados da planilha.
+   - Toque em Ativar notificações e depois em Permitir.
+   - Samsung: Configurações > Aplicativos > Contas em Dia > Bateria > Sem restrições.
+
+ATUALIZAR O APP
+   - Troque o arquivo www/index.html no repositório (Add file > Upload files).
+   - O GitHub gera um APK novo sozinho. Instale por cima: os dados continuam.
+
+DADOS
+   - O APK guarda os dados no celular, separado da versão do navegador.
+   - Para levar lançamentos de uma versão para a outra: Mais > Salvar cópia de segurança
+     e, na outra, Mais > Restaurar cópia de segurança.
